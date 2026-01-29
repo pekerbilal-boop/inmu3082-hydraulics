@@ -33,16 +33,56 @@ button { margin: 6px 0; padding: 6px 12px; cursor: pointer; }
 </style>
 
 <script>
+/* =========================
+   Toggle (accordion)
+========================= */
 function toggle(id) {
     const el = document.getElementById(id);
-    el.style.display = el.style.display === "block" ? "none" : "block";
+    if (!el) return;
+    el.style.display = (el.style.display === "block") ? "none" : "block";
 }
+
+/* =========================
+   Modal open / close
+========================= */
 function openModal(id) {
-    document.getElementById(id).style.display = "block";
+    const modal = document.getElementById(id);
+    if (!modal) return;
+
+    modal.style.display = "block";
+    modal.style.zIndex = "999999";
+    document.body.style.overflow = "hidden"; // arka plan scroll kilidi
 }
+
 function closeModal(id) {
-    document.getElementById(id).style.display = "none";
+    const modal = document.getElementById(id);
+    if (!modal) return;
+
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
 }
+
+/* =========================
+   ESC ile kapatma
+========================= */
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+        document.querySelectorAll(".modal").forEach(function (m) {
+            m.style.display = "none";
+        });
+        document.body.style.overflow = "auto";
+    }
+});
+
+/* =========================
+   Arka plana tıklayınca kapatma
+========================= */
+window.addEventListener("click", function (event) {
+    if (event.target && event.target.classList.contains("modal")) {
+        event.target.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+});
 </script>
 
 </head>
@@ -3027,3 +3067,4 @@ function closeModal(id) {
 
 </body>
 </html>
+
